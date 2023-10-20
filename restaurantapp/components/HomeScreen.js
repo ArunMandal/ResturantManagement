@@ -1,8 +1,8 @@
 // HomeScreen.js
 import React from 'react';
 import { View, Text } from 'react-native';
-import ListFoods from './ListFoods';
-import DailyNotes from './DailyNotes';
+import ListFoods from './Food/ListFoods';
+import DailyNotes from './Notes/DailyNotes';
 
 const HomeScreen = () => {
   return (

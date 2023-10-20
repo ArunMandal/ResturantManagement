@@ -4,7 +4,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 const Food = ({ name, price, origin, date, image }) => {
   return (
     <View style={styles.foodContainer}>
-      <Image source={require(`../images/${image}`)} style={styles.foodImage} />
+      <Image source={require(`../../images/${image}`)} style={styles.foodImage} />
       <View style={styles.foodDetails}>
         <Text style={styles.foodName}>{name}</Text>
         <Text style={styles.foodOrigin}>Origin: {origin}</Text>

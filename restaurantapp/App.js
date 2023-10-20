@@ -1,16 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
-import ListFoods from './components/ListFoods';
-import DailyNotes from './components/DailyNotes';
-import PersonalProfile from './components/PersonalProfile';
+import { NavigationContainer } from '@react-navigation/native';
+import TabNavigator from './layout/tabNav/tab';
 
 const App = () => {
   return (
-    <View>
-      <ListFoods />
-      <DailyNotes />
-      <PersonalProfile />
-    </View>
+    <NavigationContainer>
+      <TabNavigator />
+    </NavigationContainer>
   );
 };
 
