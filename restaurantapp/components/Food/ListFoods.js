@@ -1,26 +1,38 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import Food from './Food';
+import getFood from '../../network';
+import GlobalContext from '../../contex';
 
-const foodData = [
-  {
-    id: '1',
-    name: 'Noodle',
-    price: 10,
-    origin: 'Vietnam',
-    date: new Date(),
-    image: 'vetnam.jpg',
-  },
-  // Add more food items here
-];
 
-const ListFoods = () => {
+export default function ListFoods() {
+  const { state, setState } = useContext(GlobalContext);
+  const [food, setFood] = useState([]);
+
+  useEffect(() => {
+    const getCourse = async () => {
+      try {
+        let data = await getFood("token");
+        setState({ ...state, food: data.foods })
+      }
+      catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    getCourse();
+  
+  }, [])
+
+  useEffect(() => {
+    setFood(state.food)
+  }, [state.food])
+
   return (
     <View>
       <Text>List of Foods</Text>
       <FlatList
-        data={foodData}
-        keyExtractor={(item) => item.id}
+        data={food}
+        keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <Food
             name={item.name}
@@ -33,7 +45,10 @@ const ListFoods = () => {
       />
     </View>
   );
-};
+}
 
-export default ListFoods;
+
+
+
+
 

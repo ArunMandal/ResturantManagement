@@ -4,7 +4,7 @@ const restaurantController = require('../controllers/restaurantController');
 const { authMiddleware } = require('../controllers/userController');
 
 
-router.use(authMiddleware);
+//router.use(authMiddleware);
 router.post('/', restaurantController.createRestaurant);
 
 router.get('/:restaurantId', restaurantController.getRestaurantById);

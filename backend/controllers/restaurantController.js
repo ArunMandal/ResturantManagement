@@ -3,6 +3,7 @@ const Restaurant = require('../models/restaurant');
 
 // Create a new restaurant
 exports.createRestaurant = async (req, res) => {
+  console.log('reached heeefe')
   const { name, phone, foods, notes } = req.body;
 
   const restaurant = new Restaurant(name, phone, foods, notes);
@@ -20,12 +21,16 @@ exports.createRestaurant = async (req, res) => {
 exports.getRestaurantById = async (req, res) => {
   const { restaurantId } = req.params;
 
+  console.log('reached in server');
+
   try {
     const restaurant = await Restaurant.findById(restaurantId);
 
     if (!restaurant) {
       return res.status(404).json({ message: 'Restaurant not found' });
     }
+
+    
 
     res.status(200).json(restaurant);
   } catch (err) {

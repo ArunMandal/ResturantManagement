@@ -12,7 +12,7 @@ const port = process.env.PORT || 5001;
 
 app.use(express.json());
 app.use(cors());
-app.use('/', userRouter);
+//app.use('/', userRouter);
 app.use('/restuarants', restaurantRouter);
 
 connectToDB()

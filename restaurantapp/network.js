@@ -1,4 +1,5 @@
 const baseURL = 'http://localhost:5001';
+const resturantId='6532df372a474e2233506e82'
 
 const checkError = async (response, error) => {
   const responseData = await response.json();
@@ -44,20 +45,26 @@ export async function login(email, password) {
   }
 }
 
-export async function getProducts(token) {
+export default async function getFood(token) {
   try {
-    const response = await fetch(`${baseURL}/products`, {
+    console.log("get food called");
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}`, {
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
+      // headers: {
+      //   'Authorization': `Bearer ${token}`,
+      // },
     });
-
+    //console.log(response);
     if (!response.ok) throw new Error('Failed to fetch products');
 
     const data = await response.json();
+
+    console.log("rau baicho",data.foods);
+
     return data;
+
   } catch (error) {
+    console.log(error)
     return null;
   }
 }
