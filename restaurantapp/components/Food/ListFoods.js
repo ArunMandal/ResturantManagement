@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, TextInput } from 'react-native';
 import Food from './Food';
-import getFood from '../../network';
+import { getFood } from '../../network';
 import GlobalContext from '../../contex';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
@@ -12,7 +12,7 @@ export default function ListFoods({ navigation }) {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    const getCourse = async () => {
+    const getFoodfromDB = async () => {
       try {
         let data = await getFood("token");
         setState({ ...state, food: data.foods })
@@ -21,7 +21,7 @@ export default function ListFoods({ navigation }) {
         console.error("Error fetching data:", error);
       }
     }
-    getCourse();
+    getFoodfromDB();
 
   }, [])
 

@@ -1,12 +1,27 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet,Platform } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, Image, StyleSheet, Platform } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { deleteFood } from '../../network';
+import GlobalContext from '../../contex';
+import { getFood } from '../../network';
+
 
 const Food = ({ _id, name, price, origin, date, image }) => {
 
   const navigation = useNavigation();
+  const { state, setState } = useContext(GlobalContext)
+
+  const getFoodfromDB = async () => {
+    try {
+      let data = await getFood("token");
+      setState({ ...state, food: data.foods })
+    }
+    catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
 
   const viewfood = () => {
 
@@ -20,16 +35,17 @@ const Food = ({ _id, name, price, origin, date, image }) => {
 
 
   const toDeleteFood = async () => {
-    const success = await deleteFood(_id,"token");
+    const success = await deleteFood(_id, "token");
     if (success) {
       console.log("Food deleted successfully");
-      // const data = await getCourses();
-      // setState({ ...state, courses: data });
+      getFoodfromDB();
       navigation.navigate('foodList');
     } else {
       console.log("food deletion failed");
     }
   };
+
+
 
   const toDelete = () => {
     if (Platform.OS === 'web') {
@@ -45,7 +61,7 @@ const Food = ({ _id, name, price, origin, date, image }) => {
         },
         {
           text: 'OK',
-          onPress: () => deleteFood(_id,"token")
+          onPress: () => toDeleteFood()
         },
       ]);
     }

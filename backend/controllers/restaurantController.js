@@ -27,7 +27,7 @@ exports.getRestaurantById = async (req, res) => {
     const restaurant = await Restaurant.findById(restaurantId);
 
     if (!restaurant) {
-      return res.status(404).json({ message: 'Restaurant not found' });
+      return res.status(404).json({success:true , message: 'Restaurant not found' });
     }
 
     
@@ -64,13 +64,13 @@ exports.addFood = async (req, res) => {
     const result = await Restaurant.addFood(restaurantId, newFood);
 
     if (result.modifiedCount === 0) {
-      return res.status(404).json({ message: 'Restaurant not found' });
+      return res.status(404).json({success:true , message: 'Restaurant not found' });
     }
 
-    res.status(200).json({ message: 'Food item added successfully' });
+    res.status(200).json({success:true , message: 'Food item added successfully' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({success:false , message: 'Internal server error' });
   }
 };
 
@@ -103,9 +103,9 @@ exports.updateFood = async (req, res) => {
     const result = await Restaurant.updateFood(restaurantId, foodId, updatedFood);
     
     if (result.modifiedCount === 1) {
-      res.status(200).json({ message: 'Food item updated successfully' });
+      res.status(200).json({ success:true , message: 'Food item updated successfully' });
     } else {
-      res.status(404).json({ message: 'Food item not found' });
+      res.status(404).json({success:false , message: 'Food item not found' });
     }
   } catch (err) {
     console.error(err);
@@ -122,13 +122,13 @@ exports.deleteFood = async (req, res) => {
     const result = await Restaurant.deleteFood(restaurantId, foodId);
     
     if (result.modifiedCount === 1) {
-      res.status(200).json({ message: 'Food deleted successfully' });
+      res.status(200).json({success:true , message: 'Food deleted successfully' });
     } else {
-      res.status(404).json({ message: 'Food  not found' });
+      res.status(404).json({message: 'Food  not found' });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({success:false , message: 'Internal server error' });
   }
 };
 

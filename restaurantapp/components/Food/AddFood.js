@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, TextInput, Button, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
- import DatePicker from "react-datepicker";
+import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
 import { addFood } from '../../network';
 // import DatePicker from 'react-native-datepicker';
 
-const AddFood = () => {
+import GlobalContext from '../../contex';
+import { ColorSpace } from 'react-native-reanimated';
+import { getFood } from '../../network';
+
+
+
+const AddFood = ({ navigation }) => {
+
+    const { state, setState } = useContext(GlobalContext)
     const [name, setName] = useState('');
     const [origin, setOrigin] = useState('');
     const [price, setPrice] = useState('');
     const [date, setDate] = useState(new Date());
     const [image, setImage] = useState(null);
 
+
+    const getFoodfromDB = async () => {
+        try {
+          let data = await getFood("token");
+          setState({ ...state, food: data.foods })
+        }
+        catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
 
 
     const handleImageSelection = async () => {
@@ -47,9 +65,8 @@ const AddFood = () => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // Handle form submission here
-
 
         const newFood = {
             name: name,
@@ -59,10 +76,16 @@ const AddFood = () => {
             image: image
         }
 
-        const ret = addFood(newFood, "token")
+        const ret = await addFood(newFood, "token")
 
-        console.log("ret", ret)
+        if (ret.success) {
 
+            getFoodfromDB();
+            navigation.navigate('foodList')
+        }
+        else {
+            console.log(ret.message);
+        }
 
 
     };
@@ -89,7 +112,7 @@ const AddFood = () => {
             <DatePicker selected={date} onChange={(text) => setDate(text)} />
             {/* <DatePicker selected={date} onChange={handleDateChange} />  */}
 
-           
+
 
 
             <Button title="Select Image" onPress={handleImageSelection} />

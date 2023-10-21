@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, TextInput, Button, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 //import DatePicker from "react-datepicker";
 import DatePicker from 'react-native-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { editFood } from '../../network';
-
+import GlobalContext from '../../contex';
+import { getFood } from '../../network';
 
 
 export default function EditFood({ navigation, route }) {
 
-    console.log(route.params);
+   
+    const {state, setState} = useContext(GlobalContext);
 
     const [name, setName] = useState(route.params.name);
     const [origin, setOrigin] = useState(route.params.origin);
@@ -44,7 +46,17 @@ export default function EditFood({ navigation, route }) {
         }
     };
 
-    const handleSubmit = () => {
+    const getFoodfromDB = async () => {
+        try {
+            let data = await getFood("token");
+            setState({ ...state, food: data.foods })
+        }
+        catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    const handleSubmit = async () => {
         // Handle form submission here
 
         const newFood = {
@@ -56,9 +68,16 @@ export default function EditFood({ navigation, route }) {
             _id: route.params._id
         }
 
-        const ret = editFood(newFood, "token")
+        const ret = await editFood(newFood, "token")
 
-        console.log("ret", ret)
+        if (ret.success) {
+
+            getFoodfromDB();
+            navigation.navigate('foodList')
+        }
+        else {
+            console.log(ret.message);
+        }
 
 
 

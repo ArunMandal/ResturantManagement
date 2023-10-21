@@ -45,7 +45,7 @@ export async function login(email, password) {
   }
 }
 
-export default async function getFood(token) {
+export async function getFood(token) {
   try {
     console.log("get food called");
     const response = await fetch(`${baseURL}/restuarants/${resturantId}`, {
