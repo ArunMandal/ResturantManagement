@@ -64,6 +64,16 @@ class Restaurant {
       }
     );
   }
+
+
+  static deleteFood(restaurantId, foodId) {
+    const db = getDb();
+    return db.collection('restaurants').updateOne(
+      { _id: new ObjectId(restaurantId) },
+      { $pull: { foods: { _id: new ObjectId(foodId) } } }
+    );
+  }
+
   static updateNote(restaurantId, noteId, updatedNote) {
     const db = getDb();
     return db.collection('restaurants').updateOne(

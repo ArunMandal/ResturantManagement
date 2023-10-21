@@ -10,9 +10,8 @@ const App = () => {
   const [state,setState]= useState({food:[],notes:[]});
   return (
     <GlobalContext.Provider value={{state,setState}}>
-
-      <NavigationContainer>
-        <TabNavigator />
+      <NavigationContainer >
+        <TabNavigator  />
       </NavigationContainer>
 
     </GlobalContext.Provider>

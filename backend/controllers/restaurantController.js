@@ -59,7 +59,6 @@ exports.listRestaurants = async (req, res) => {
 exports.addFood = async (req, res) => {
   const { restaurantId } = req.params;
   const { name, origin, price, date, image } = req.body;
-
   try {
     const newFood = { name, origin, price, date, image };
     const result = await Restaurant.addFood(restaurantId, newFood);
@@ -107,6 +106,25 @@ exports.updateFood = async (req, res) => {
       res.status(200).json({ message: 'Food item updated successfully' });
     } else {
       res.status(404).json({ message: 'Food item not found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+exports.deleteFood = async (req, res) => {
+  const { restaurantId, foodId } = req.params;
+
+
+  try {
+    const result = await Restaurant.deleteFood(restaurantId, foodId);
+    
+    if (result.modifiedCount === 1) {
+      res.status(200).json({ message: 'Food deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Food  not found' });
     }
   } catch (err) {
     console.error(err);

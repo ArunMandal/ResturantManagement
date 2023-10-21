@@ -90,15 +90,16 @@ export async function getProduct(id, token) {
   }
 }
 
-export async function addProduct(newprod, token) {
+export async function addFood(newFood, token) {
   try {
-    const response = await fetch(`${baseURL}/products`, {
+    
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}/foods`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        // 'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify(newprod),
+      body: JSON.stringify(newFood),
     });
 
     if (!response.ok) throw new Error('Failed to add product');
@@ -110,15 +111,15 @@ export async function addProduct(newprod, token) {
   }
 }
 
-export async function editProduct(newProd, token) {
+export async function editFood(newFood, token) {
   try {
-    const response = await fetch(`${baseURL}/products/${newProd.id}`, {
-      method: 'PUT',
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}/foods/${newFood._id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        //'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify(newProd),
+      body: JSON.stringify(newFood),
     });
 
     if (!response.ok) throw new Error('Failed to edit product');
@@ -149,13 +150,13 @@ export async function updateProduct(id, data, token) {
   }
 }
 
-export async function deleteProduct(id, token) {
+export async function deleteFood(id, token) {
   try {
-    const response = await fetch(`${baseURL}/products/${id}`, {
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}/foods/${id}`, {
       method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
+      // headers: {
+      //   'Authorization': `Bearer ${token}`,
+      // },
     });
 
     if (!response.ok) throw new Error('Failed to delete product');
