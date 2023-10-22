@@ -65,10 +65,10 @@ const Food = ({ _id, name, price, origin, date, image }) => {
       <View style={styles.foodDetails}>
         <Text style={styles.foodName}>{name}</Text>
         <View style={styles.infoContainer}>
-          <Text style={styles.foodOrigin}>
+          {/* <Text style={styles.foodOrigin}>
             <Text style={styles.boldText}>Origin: </Text>
             {origin}
-          </Text>
+          </Text> */}
           <Text style={styles.foodPrice}>
             <Text style={styles.boldText}>Price: </Text>
             {price}
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: "flex-start",
     marginBottom: 10,
 
   },

@@ -119,7 +119,7 @@ export default function EditFood({ navigation, route }) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        //flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     image: {
-        width: 200,
-        height: 200,
+        width: 100,
+        height: 100,
         marginBottom: 20,
     },
     buttonContainer: {
