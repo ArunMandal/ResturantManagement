@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { deleteFood } from '../../network';
 import GlobalContext from '../../contex';
 import { getFood } from '../../network';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Food = ({ _id, name, price, origin, date, image }) => {
@@ -14,7 +15,8 @@ const Food = ({ _id, name, price, origin, date, image }) => {
 
   const getFoodfromDB = async () => {
     try {
-      let data = await getFood("token");
+      const storedToken = await AsyncStorage.getItem('token');
+      let data = await getFood(storedToken);
       setState({ ...state, food: data.foods })
     }
     catch (error) {
@@ -35,7 +37,8 @@ const Food = ({ _id, name, price, origin, date, image }) => {
 
 
   const toDeleteFood = async () => {
-    const success = await deleteFood(_id, "token");
+    const storedToken = await AsyncStorage.getItem('token');
+    const success = await deleteFood(_id, storedToken);
     if (success) {
       console.log("Food deleted successfully");
       getFoodfromDB();

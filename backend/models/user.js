@@ -24,20 +24,42 @@ class User {
     }
   }
 
-  static findByEmail(email) {
+  static async findByEmail(email) {
     const db = getDb();
-    return db.collection('users').findOne({ email });
+    return await db.collection('users').findOne({ email });
   }
 
-  static findById(userId) {
+  static async findById(userId) {
     const db = getDb();
-    return db.collection('users').findOne({ _id: new ObjectId(userId) });
+    return await db.collection('users').findOne({ _id: new ObjectId(userId) });
   }
 
-	static findAll() {
+	static async findAll() {
     const db = getDb();
-    return db.collection('users').find({}).toArray();
+    return await db.collection('users').find({}).toArray();
   }
+
+  static async updateProfile(userId, updatedFields) {
+    const db = getDb(); // Assuming you have a getDb function
+  
+    try {
+      const result = await db.collection('users').updateOne(
+        { _id: new ObjectId(userId) }, // Assuming userId is a string with the user's ID
+        { $set: updatedFields }
+      );
+  
+      if (result.matchedCount === 0) {
+        throw new Error('User not found.');
+      }
+  
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+
+  
 }
 
 module.exports = User;

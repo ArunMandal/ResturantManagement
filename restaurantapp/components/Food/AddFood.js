@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
 import { addFood } from '../../network';
 // import DatePicker from 'react-native-datepicker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GlobalContext from '../../contex';
 import { ColorSpace } from 'react-native-reanimated';
@@ -24,13 +25,14 @@ const AddFood = ({ navigation }) => {
 
     const getFoodfromDB = async () => {
         try {
-          let data = await getFood("token");
-          setState({ ...state, food: data.foods })
+            const storedToken = await AsyncStorage.getItem('token');
+            let data = await getFood(storedToken);
+            setState({ ...state, food: data.foods })
         }
         catch (error) {
-          console.error("Error fetching data:", error);
+            console.error("Error fetching data:", error);
         }
-      }
+    }
 
 
     const handleImageSelection = async () => {
@@ -67,7 +69,7 @@ const AddFood = ({ navigation }) => {
 
     const handleSubmit = async () => {
         // Handle form submission here
-
+        const storedToken = await AsyncStorage.getItem('token');
         const newFood = {
             name: name,
             origin: origin,
@@ -76,7 +78,7 @@ const AddFood = ({ navigation }) => {
             image: image
         }
 
-        const ret = await addFood(newFood, "token")
+        const ret = await addFood(newFood, storedToken)
 
         if (ret.success) {
 

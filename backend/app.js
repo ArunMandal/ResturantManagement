@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cors());
 // Increase the payload size limit
 
-//app.use('/', userRouter);
+app.use('/', userRouter);
 app.use('/restuarants', restaurantRouter);
 
 connectToDB()

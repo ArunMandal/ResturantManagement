@@ -4,6 +4,7 @@ import Food from './Food';
 import { getFood } from '../../network';
 import GlobalContext from '../../contex';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function ListFoods({ navigation }) {
@@ -14,7 +15,9 @@ export default function ListFoods({ navigation }) {
   useEffect(() => {
     const getFoodfromDB = async () => {
       try {
-        let data = await getFood("token");
+        const storedToken = await AsyncStorage.getItem('token');
+        
+        let data = await getFood(storedToken);
         setState({ ...state, food: data.foods })
       }
       catch (error) {
