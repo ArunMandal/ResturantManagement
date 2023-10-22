@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { editFood } from '../../network';
 import GlobalContext from '../../contex';
 import { getFood } from '../../network';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function EditFood({ navigation, route }) {
@@ -48,7 +49,8 @@ export default function EditFood({ navigation, route }) {
 
     const getFoodfromDB = async () => {
         try {
-            let data = await getFood("token");
+            const storedToken = await AsyncStorage.getItem('token');
+            let data = await getFood(storedToken);
             setState({ ...state, food: data.foods })
         }
         catch (error) {
@@ -67,8 +69,8 @@ export default function EditFood({ navigation, route }) {
             image: image,
             _id: route.params._id
         }
-
-        const ret = await editFood(newFood, "token")
+        const storedToken = await AsyncStorage.getItem('token');
+        const ret = await editFood(newFood, storedToken)
 
         if (ret.success) {
 

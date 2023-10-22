@@ -1,5 +1,5 @@
 const baseURL = 'http://localhost:5001';
-const resturantId='6532df372a474e2233506e82'
+const resturantId = '6532df372a474e2233506e82'
 
 const checkError = async (response, error) => {
   const responseData = await response.json();
@@ -26,6 +26,28 @@ export async function signup(email, password) {
   }
 }
 
+
+export async function getUser(id, token) {
+  try {
+    const response = await fetch(`${baseURL}/${id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Unauthorized');
+      return { success: false, error: 'Unauthorized' };
+    }
+
+    const data = await response.json();
+    if (data) return { success: true, data };
+  } catch (error) {
+    return { success: false, error: 'An error occurred' };
+  }
+}
+
 export async function login(email, password) {
   try {
     const response = await fetch(`${baseURL}/login`, {
@@ -47,63 +69,34 @@ export async function login(email, password) {
 
 export async function getFood(token) {
   try {
-    console.log("get food called");
     const response = await fetch(`${baseURL}/restuarants/${resturantId}`, {
       method: 'GET',
-      // headers: {
-      //   'Authorization': `Bearer ${token}`,
-      // },
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
     });
-    //console.log(response);
     if (!response.ok) throw new Error('Failed to fetch products');
-
     const data = await response.json();
-
-    console.log("rau baicho",data.foods);
-
     return data;
-
   } catch (error) {
     console.log(error)
     return null;
   }
 }
 
-export async function getProduct(id, token) {
-  try {
-    const response = await fetch(`${baseURL}/products/${id}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      console.error('Unauthorized');
-      return null;
-    }
-
-    const data = await response.json();
-    if (data.success) return data.data;
-  } catch (error) {
-    return null;
-  }
-}
 
 export async function addFood(newFood, token) {
   try {
-    
+
     const response = await fetch(`${baseURL}/restuarants/${resturantId}/foods`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // 'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(newFood),
     });
-
     if (!response.ok) throw new Error('Failed to add product');
-
     const data = await response.json();
     return data;
   } catch (error) {
@@ -117,13 +110,11 @@ export async function editFood(newFood, token) {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        //'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(newFood),
     });
-
     if (!response.ok) throw new Error('Failed to edit product');
-
     const data = await response.json();
     return data;
   } catch (error) {
@@ -131,32 +122,14 @@ export async function editFood(newFood, token) {
   }
 }
 
-export async function updateProduct(id, data, token) {
-  try {
-    const response = await fetch(`${baseURL}/products/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) throw new Error('Failed to update product');
-
-    return await checkError(response, 'UPDATE_PRODUCT:');
-  } catch (error) {
-    return null;
-  }
-}
 
 export async function deleteFood(id, token) {
   try {
     const response = await fetch(`${baseURL}/restuarants/${resturantId}/foods/${id}`, {
       method: 'DELETE',
-      // headers: {
-      //   'Authorization': `Bearer ${token}`,
-      // },
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
     });
 
     if (!response.ok) throw new Error('Failed to delete product');
@@ -165,5 +138,32 @@ export async function deleteFood(id, token) {
     return data;
   } catch (error) {
     return null;
+  }
+}
+
+
+export async function updateProfile(data, token) {
+  try {
+    console.log("Updating profile with data:", data);
+    const response = await fetch(`${baseURL}/update/${data._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(data),
+    });
+
+    console.log("Response from server:", response);
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.error);
+    }
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    throw error; // You can handle the error as needed in your component
   }
 }

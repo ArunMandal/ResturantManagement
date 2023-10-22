@@ -22,7 +22,7 @@ exports.registerUser = async (req, res) => {
     await user.save();
 		console.log(user);
 
-    res.status(201).json({ message: 'User registered successfully.' });
+    res.status(201).json({success:true, message: 'User registered successfully.' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal server error.' });
@@ -83,31 +83,29 @@ exports.authMiddleware = (req, res, next) => {
   }
 };
 
-// Update user profile
-exports.updateProfile = async (req, res) => {
-  const userId = req.userId;
+exports.updateUserProfile = async (req, res) => {
+console.log('reached to update profi;e')
+  const userId = req.params.userId; // Assuming you're passing userId in the route parameters
   const { phoneNumber, fullName, password, address } = req.body;
 
+  const updatedFields = {};
+
+  if (phoneNumber) updatedFields.phoneNumber = phoneNumber;
+  if (fullName) updatedFields.fullName = fullName;
+  if (password) updatedFields.password = password;
+  if (address) updatedFields.address = address;
+
   try {
-    const user = await User.findById(userId);
+    const result = await User.updateProfile(userId, updatedFields);
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
-    }
-
-    if (phoneNumber) user.phoneNumber = phoneNumber;
-    if (fullName) user.fullName = fullName;
-    if (password) user.password = await bcrypt.hash(password, 10);
-    if (address) user.address = address;
-
-    await user.save();
-
-    res.status(200).json({ message: 'User profile updated successfully.' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Internal server error.' });
+    res.status(200).json({ success: true, message: 'User profile updated successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(404).json({ message: error.message });
   }
 };
+
+
 
 // Add this function to userController.js
 // Get all users
@@ -126,4 +124,23 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ message: 'Internal server error.' });
   }
 };
+
+exports.getUserById = async (req, res) => {
+  console.log('reached in servet to get id')
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 
