@@ -14,7 +14,7 @@ const App = () => {
   function authorization() {
     return (
       <stack.Navigator>
-        <stack.Screen name='login' component={AuthScreen} />
+        <stack.Screen name='login' component={AuthScreen}  options={{headerShown:false}}/>
       </stack.Navigator>
 
     )

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, TextInput, Button, Image } from 'react-native';
+import { View,Text, TextInput, Button, Image,StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 //import DatePicker from "react-datepicker";
 import DatePicker from 'react-native-datepicker';
@@ -12,8 +12,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function EditFood({ navigation, route }) {
 
-   
-    const {state, setState} = useContext(GlobalContext);
+
+    const { state, setState } = useContext(GlobalContext);
 
     const [name, setName] = useState(route.params.name);
     const [origin, setOrigin] = useState(route.params.origin);
@@ -81,42 +81,72 @@ export default function EditFood({ navigation, route }) {
             console.log(ret.message);
         }
 
-
-
     };
 
     return (
-        <View style={{ flex: 1, flexDirection: "column", justifyContent: 'center', alignItems: 'center' }}>
-            <TextInput
-                placeholder="Name"
-                value={name}
-                onChangeText={(text) => setName(text)}
-            />
-            <TextInput
-                placeholder="Origin"
-                value={origin}
-                onChangeText={(text) => setOrigin(text)}
-            />
-
-            <TextInput
-                placeholder="Price"
-                value={price}
-                onChangeText={(text) => setPrice(text)}
-                keyboardType="numeric"
-            />
-            {/* <DatePicker selected={date} mode="date" format="YYYY-MM-DD" onChange={(text) => setDate(text)} /> */}
-
-            <DatePicker
-                date={date}
-                mode="date"
-                format="YYYY-MM-DD"
-                onDateChange={(newDate) => setDate(newDate)}
-            />
-
+        <View style={styles.container}>
+            <Text style={styles.heading}>Edit Food</Text>
+            <View style={styles.formContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Name"
+                    value={name}
+                    onChangeText={(text) => setName(text)}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Origin"
+                    value={origin}
+                    onChangeText={(text) => setOrigin(text)}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Price"
+                    value={price}
+                    onChangeText={(text) => setPrice(text)}
+                    keyboardType="numeric"
+                />
+                {/* Custom DatePicker component can be added here */}
+            </View>
             <Button title="Select Image" onPress={handleImageSelection} />
-            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-            <Button title="Submit" onPress={handleSubmit} />
+            {image && <Image source={{ uri: image }} style={styles.image} />}
+            <View style={styles.buttonContainer}>
+                <Button title="Submit" onPress={handleSubmit} />
+            </View>
         </View>
     );
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+        backgroundColor: '#ffffff',
+    },
+    heading: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    formContainer: {
+        width: '80%',
+        marginBottom: 20,
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#cccccc',
+        borderRadius: 5,
+        padding: 12,
+        marginBottom: 20,
+    },
+    image: {
+        width: 200,
+        height: 200,
+        marginBottom: 20,
+    },
+    buttonContainer: {
+        width: '80%',
+    },
+});
