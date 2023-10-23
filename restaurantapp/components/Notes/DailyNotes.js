@@ -49,11 +49,14 @@ export default function DailyNotes({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.heading}>Notes</Text>
 
-      <TouchableOpacity style={styles.addButton} onPress={addNote}>
-        <Text style={styles.buttonText}>Add new note</Text>
-      </TouchableOpacity>
 
-      <TextInput style={styles.searchInput} placeholder="Live Search" onChangeText={changeSearch} />
+      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+        <TextInput style={styles.searchInput} placeholder="Live Search" onChangeText={changeSearch} />
+        <TouchableOpacity style={styles.addButton} onPress={addNote}>
+          <Text style={styles.buttonText}>Add Note</Text>
+        </TouchableOpacity>
+
+      </View>
       <FlatList style={{ width: "100%" }}
         data={notes}
         keyExtractor={(item) => item._id}
@@ -80,10 +83,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   addButton: {
-    backgroundColor: '#ff9900',
+    backgroundColor: 'black',
     padding: 10,
     borderRadius: 5,
     marginBottom: 20,
+    marginLeft:10
   },
   buttonText: {
     color: 'white',

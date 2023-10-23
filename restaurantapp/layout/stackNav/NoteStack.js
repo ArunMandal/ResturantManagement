@@ -6,9 +6,9 @@ import AddNotes from "../../components/Notes/AddNote";
 export default function NoteStackNavigator() {
     return (
         <stack.Navigator>
-            <stack.Screen name="noteList" component={DailyNotes} />
-            <stack.Screen name="noteDetails" component={NoteDetails} />
-            <stack.Screen name="addNote" component={AddNotes} />
+            <stack.Screen name="noteList" component={DailyNotes} options={{headerShown:false}} />
+            <stack.Screen name="noteDetails" component={NoteDetails} options={{title:"Note Details"}} />
+            <stack.Screen name="addNote" component={AddNotes} options={{title:"Add Note"}} />
         </stack.Navigator>
     )
 }

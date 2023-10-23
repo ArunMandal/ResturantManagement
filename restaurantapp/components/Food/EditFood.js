@@ -1,9 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { View,Text, TextInput, Button, Image,StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-//import DatePicker from "react-datepicker";
-import DatePicker from 'react-native-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 import { editFood } from '../../network';
 import GlobalContext from '../../contex';
 import { getFood } from '../../network';
@@ -20,6 +17,7 @@ export default function EditFood({ navigation, route }) {
     const [price, setPrice] = useState(route.params.price);
     const [date, setDate] = useState(route.params.date);
     const [image, setImage] = useState(route.params.image);
+    const [error, setError] = useState(false);
 
 
 
@@ -60,6 +58,13 @@ export default function EditFood({ navigation, route }) {
 
     const handleSubmit = async () => {
         // Handle form submission here
+
+        
+        if (!name) {
+            // Alert.alert('Name is null', 'Please provide a valid name');
+            setError(true)
+            return
+        }
 
         const newFood = {
             name: name,
@@ -110,6 +115,7 @@ export default function EditFood({ navigation, route }) {
             </View>
             <Button title="Select Image" onPress={handleImageSelection} />
             {image && <Image source={{ uri: image }} style={styles.image} />}
+            {error&& <Text style={{color:"red"}}>Food name is mandatory</Text>}
             <View style={styles.buttonContainer}>
                 <Button title="Submit" onPress={handleSubmit} />
             </View>

@@ -10,10 +10,10 @@ const stack = createStackNavigator();
 export default function FoodStackNavigator() {
     return (
         <stack.Navigator>
-            <stack.Screen name='foodList' component={ListFoods} />
-            <stack.Screen name='foodDetals' component={FoodDetails} />
-            <stack.Screen name='addFood' component={AddFood} />
-            <stack.Screen name='editFood' component={EditFood} />
+            <stack.Screen name='foodList' component={ListFoods} options={{headerShown:false}}/>
+            <stack.Screen name='foodDetals' component={FoodDetails} options={{title:"Food Details"}} />
+            <stack.Screen name='addFood' component={AddFood} options={{title:"Add Food"}}/>
+            <stack.Screen name='editFood' component={EditFood} options={{title:"Edit Food"}}/>
         </stack.Navigator>
     )
 

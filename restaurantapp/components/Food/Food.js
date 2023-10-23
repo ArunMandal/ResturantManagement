@@ -71,7 +71,7 @@ const Food = ({ _id, name, price, origin, date, image }) => {
           </Text> */}
           <Text style={styles.foodPrice}>
             <Text style={styles.boldText}>Price: </Text>
-            {price}
+           ${price}
           </Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
 
   },
   button: {
-    backgroundColor: '#FF6347',
+    backgroundColor: 'black',
     padding: 10,
     borderRadius: 5,
     margin: 10

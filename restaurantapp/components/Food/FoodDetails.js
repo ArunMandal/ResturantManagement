@@ -1,6 +1,5 @@
 import { Text, View, Button, Image, StyleSheet } from "react-native"
-import * as ImagePicker from 'expo-image-picker';
-import DatePicker from "react-datepicker";
+
 
 export default function FoodDetails({ navigation, route }) {
 
@@ -22,7 +21,7 @@ export default function FoodDetails({ navigation, route }) {
                         {price}
                     </Text>
                 </View>
-                <Text style={styles.foodPrice}>
+                <Text style={styles.foodDate}>
                     <Text style={styles.boldText}>Date: </Text>
                     {date}
                 </Text>
@@ -78,12 +77,17 @@ const styles = StyleSheet.create({
     foodPrice: {
         fontSize: 16,
         color: '#333',
-       // marginLeft: 10
+        marginLeft: 10
+    },
+    foodDate: {
+        fontSize: 16,
+        color: '#333',
+       
     },
     buttonContainer: {
-       
+
         justifyContent: 'center',
-        marginTop:10
+        marginTop: 10
 
     },
     button: {

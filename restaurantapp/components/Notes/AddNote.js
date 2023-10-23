@@ -10,6 +10,7 @@ const AddNotes = ({ navigation }) => {
     const { state, setState } = useContext(GlobalContext)
     const [header, setHeader] = useState('');
     const [comment, setComment] = useState('');
+    const [error, setError] = useState(false);
 
     const getNotesfromDB = async () => {
         try {
@@ -26,6 +27,12 @@ const AddNotes = ({ navigation }) => {
     const handleSubmit = async () => {
 
         let today = new Date();
+
+        if (!header) {
+            // Alert.alert('Name is null', 'Please provide a valid name');
+            setError(true)
+            return
+        }
 
         // Extract the day, month, and year
         let dd = String(today.getDate()).padStart(2, '0');
@@ -61,7 +68,7 @@ const AddNotes = ({ navigation }) => {
                     onChangeText={(text) => setHeader(text)}
                 />
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, { height: 100 }]}
                     placeholder="Comment"
                     value={comment}
                     multiline
@@ -69,6 +76,7 @@ const AddNotes = ({ navigation }) => {
                     onChangeText={(text) => setComment(text)}
                 />
             </View>
+            {error&& <Text style={{color:"red"}}>Note header is mandatory</Text>}
             <View style={styles.buttonContainer}>
                 <Button title="Submit" onPress={handleSubmit} />
             </View>
@@ -78,38 +86,30 @@ const AddNotes = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        //flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-        backgroundColor: '#fff',
+      flex: 1,
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      backgroundColor: '#fff',
     },
     heading: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20,
     },
     formContainer: {
-        width: '100%',
-        marginBottom: 20,
+      width: '80%',
+      marginBottom: 20,
     },
     input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 12,
-        marginBottom: 20,
-        width: '80%',
-    },
-    image: {
-        width: 200,
-        height: 200,
-        marginBottom: 20,
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      marginBottom: 10,
+      padding: 10,
     },
     buttonContainer: {
-        width: '10%',
-        marginTop: 20
+      width: '80%',
     },
-});
-
+  });
+  
 export default AddNotes;
