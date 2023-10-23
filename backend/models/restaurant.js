@@ -110,10 +110,6 @@ class Restaurant {
       { $pull: { cart: { _id: new ObjectId(foodId) } } }
     )
 
-    // return db.collection('restaurants').updateOne(
-    //   { _id: new ObjectId(restaurantId) },
-    //   { $pull: { foods: { _id: new ObjectId(foodId) } } }
-    // );
   }
   static updateNote(restaurantId, noteId, updatedNote) {
     const db = getDb();

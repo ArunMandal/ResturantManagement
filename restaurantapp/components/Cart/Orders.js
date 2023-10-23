@@ -6,28 +6,30 @@ import { getFood } from '../../network';
 import GlobalContext from '../../contex';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartItem from './CartItem';
+import OrderItem from './orderItem';
 
-export default function Cart({ navigation }) {
+export default function orders({ navigation }) {
   const { state, setState } = useContext(GlobalContext);
-  const [cart, setCart] = useState([]);
-  const [searchText, setSearchText] = useState("");
+  const [orders, setOrders] = useState([]);
+
 
   useEffect(() => {
-    const getCartfromDB = async () => {
+    const getOrdersfromDB = async () => {
       try {
         const storedToken = await AsyncStorage.getItem('token');
         let data = await getFood(storedToken);
-        setState({ ...state, cart: data.cart });
+        console.log("data",data.order)
+        setState({ ...state, orders: data.order });
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    getCartfromDB();
+    getOrdersfromDB();
   }, []);
 
   useEffect(() => {
-    setCart(state.cart);
-  }, [state.cart]);
+    setOrders(state.orders);
+  }, [state.orders]);
 
   // const changeSearch = (text) => {
   //   setSearchText(text);
@@ -42,25 +44,17 @@ export default function Cart({ navigation }) {
   //   }
   // };
 
-  const goToOrders = () => {
-    navigation.navigate('orders')
-  }
 
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Items in Cart to checkout</Text>
 
-      <View style={styles.gotoOrder}>
-        <TouchableOpacity style={styles.addButton} onPress={goToOrders}>
-          <Text style={styles.buttonText}>My Orders</Text>
-        </TouchableOpacity>
-      </View>
       <FlatList style={{ width: "100%" }}
-        data={cart}
+        data={orders}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <CartItem name={item.name} price={item.price} origin={item.origin} date={item.date} image={item.image} _id={item._id} />
+          <OrderItem name={item.name} price={item.price} origin={item.origin} date={item.date} image={item.image} _id={item._id} />
         )}
       />
     </View>
@@ -80,11 +74,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-  },
-  gotoOrder: {
-    //justifyContent:"flex-end",
-    flexDirection:"row",
-    justifyContent: "flex-end"
   },
   addButton: {
     backgroundColor: 'black',
