@@ -1,15 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, Image, StyleSheet, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import DatePicker from "react-datepicker";
-//import "react-datepicker/dist/react-datepicker.css";
 import { addFood } from '../../network';
-// import DatePicker from 'react-native-datepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import GlobalContext from '../../contex';
-
 import { getFood } from '../../network';
+
 
 
 
@@ -21,6 +17,9 @@ const AddFood = ({ navigation }) => {
     const [price, setPrice] = useState('');
     const [date, setDate] = useState(new Date());
     const [image, setImage] = useState(null);
+    const [error, setError] = useState(false);
+
+
 
 
     const getFoodfromDB = async () => {
@@ -60,17 +59,20 @@ const AddFood = ({ navigation }) => {
     };
 
 
-    const handleDateChange = (event, selectedDate) => {
-        if (selectedDate) {
-            const formattedDate = selectedDate.toISOString().split('T')[0];
-            setDate(formattedDate);
-        }
-    };
 
+  
     const handleSubmit = async () => {
         // Handle form submission here
 
         // Get today's date
+
+
+        if (!name) {
+            // Alert.alert('Name is null', 'Please provide a valid name');
+            setError(true)
+            return
+        }
+
         let today = new Date();
 
         // Extract the day, month, and year
@@ -125,8 +127,10 @@ const AddFood = ({ navigation }) => {
                     keyboardType="numeric"
                 />
             </View>
-            <Button style={{ margin: 10 }} title="Select Image" onPress={handleImageSelection} />
+            <Button title="Select Image" onPress={handleImageSelection} />
             {image && <Image source={{ uri: image }} style={styles.image} />}
+
+            {error&& <Text style={{color:"red"}}>Food name is mandatory</Text>}
             <View style={styles.buttonContainer}>
                 <Button title="Submit" onPress={handleSubmit} />
             </View>
@@ -136,10 +140,9 @@ const AddFood = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        //flex: 1,
-        justifyContent: 'center',
+        flex: 1,
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        padding: 20,
         backgroundColor: '#fff',
     },
     heading: {
@@ -148,16 +151,15 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     formContainer: {
-        width: '100%',
+        width: '80%',
         marginBottom: 20,
     },
     input: {
+        height: 40,
+        borderColor: 'gray',
         borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        padding: 12,
-        marginBottom: 20,
-        width: '80%',
+        marginBottom: 10,
+        padding: 10,
     },
     image: {
         width: 200,
@@ -165,8 +167,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     buttonContainer: {
-        width: '10%',
-        marginTop: 20
+        width: '80%',
+        marginTop: 10
     },
 });
 

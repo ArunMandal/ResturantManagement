@@ -7,8 +7,8 @@ const stack = createStackNavigator();
 export default function ProfileStackNavigator() {
     return (
         <stack.Navigator>
-            <stack.Screen name='userProfile' component={PersonalProfile} />
-            <stack.Screen name='updateProfile' component={UpdateProfile} />
+            <stack.Screen name='userProfile' component={PersonalProfile} options={{headerShown:false}}  />
+            <stack.Screen name='updateProfile' component={UpdateProfile} options={{title:"Update Profile"}}  />
         </stack.Navigator>
     )
 }

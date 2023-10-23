@@ -167,3 +167,45 @@ export async function updateProfile(data, token) {
     throw error; // You can handle the error as needed in your component
   }
 }
+
+
+//Notes Section
+
+export async function addNotes(newNote, token) {
+  try {
+
+    console.log("token",token)
+
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}/notes`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(newNote),
+    });
+    if (!response.ok) throw new Error('Failed to add note');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+
+export async function getNotes(token) {
+  try {
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) throw new Error('Failed to fetch notes');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error)
+    return null;
+  }
+}

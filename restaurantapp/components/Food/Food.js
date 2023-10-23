@@ -65,13 +65,13 @@ const Food = ({ _id, name, price, origin, date, image }) => {
       <View style={styles.foodDetails}>
         <Text style={styles.foodName}>{name}</Text>
         <View style={styles.infoContainer}>
-          <Text style={styles.foodOrigin}>
+          {/* <Text style={styles.foodOrigin}>
             <Text style={styles.boldText}>Origin: </Text>
             {origin}
-          </Text>
+          </Text> */}
           <Text style={styles.foodPrice}>
             <Text style={styles.boldText}>Price: </Text>
-            {price}
+           ${price}
           </Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: "flex-start",
     marginBottom: 10,
 
   },
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
 
   },
   button: {
-    backgroundColor: '#FF6347',
+    backgroundColor: 'black',
     padding: 10,
     borderRadius: 5,
     margin: 10

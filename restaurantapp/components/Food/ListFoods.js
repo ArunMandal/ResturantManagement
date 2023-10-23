@@ -46,14 +46,17 @@ export default function ListFoods({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>List of Foods</Text>
+      <Text style={styles.heading}>Food</Text>
 
-      <TouchableOpacity style={styles.addButton} onPress={addFood}>
-        <Text style={styles.buttonText}>Add new food</Text>
-      </TouchableOpacity>
+      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+        <TextInput style={styles.searchInput} placeholder="Live Search" onChangeText={changeSearch} />
+        <TouchableOpacity style={styles.addButton} onPress={addFood}>
+          <Text style={styles.buttonText}>Add Food</Text>
+        </TouchableOpacity>
 
-      <TextInput style={styles.searchInput} placeholder="Live Search" onChangeText={changeSearch} />
-      <FlatList style={{width:"50%"}}
+      </View>
+
+      <FlatList style={{ width: "100%" }}
         data={food}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     //padding: 20,
-    width:'100%'
+    width: '100%'
   },
   heading: {
     fontSize: 24,
@@ -79,10 +82,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   addButton: {
-    backgroundColor: '#ff9900',
+    backgroundColor: 'black',
     padding: 10,
     borderRadius: 5,
     marginBottom: 20,
+    marginLeft:20
   },
   buttonText: {
     color: 'white',
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    padding: 10,
+    //padding: 10,
     marginBottom: 20,
     width: '100%',
   },
