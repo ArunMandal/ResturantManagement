@@ -6,6 +6,7 @@ import { deleteFood } from '../../network';
 import GlobalContext from '../../contex';
 import { getFood } from '../../network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { addToCart } from '../../../backend/models/restaurant';
 
 const Food = ({ _id, name, price, origin, date, image }) => {
   const navigation = useNavigation();
@@ -16,10 +17,22 @@ const Food = ({ _id, name, price, origin, date, image }) => {
       const storedToken = await AsyncStorage.getItem('token');
       let data = await getFood(storedToken);
       setState({ ...state, food: data.foods });
+      setState({ ...state, cart: data.cart });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+
+  const getCartfromDB = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem('token');
+      let data = await getFood(storedToken);
+      setState({ ...state, cart: data.cart });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
 
   const viewfood = () => {
     navigation.navigate('foodDetals', { name, price, origin, date, image });
@@ -29,10 +42,30 @@ const Food = ({ _id, name, price, origin, date, image }) => {
     navigation.navigate('editFood', { _id, name, price, origin, date, image });
   };
 
-  const addToCart=()=>{
+  const foodAddToCart = async () => {
 
+    const storedToken = await AsyncStorage.getItem('token');
+    const newFood = {
+      _id: _id,
+      name: name,
+      origin: origin,
+      price: price,
+      date: date,
+      image: image
+    }
 
-    
+    const ret = await addToCart(newFood, storedToken)
+
+    if (ret.success) {
+
+      getCartfromDB();
+      confirm('Item added to cart');
+     // navigation.navigate('foodList')
+    }
+    else {
+      console.log(ret.message);
+    }
+
   }
 
   const toDeleteFood = async () => {
@@ -88,7 +121,7 @@ const Food = ({ _id, name, price, origin, date, image }) => {
             <Text style={styles.buttonText}>View</Text>
           </TouchableHighlight>
 
-          <TouchableHighlight style={styles.button} onPress={addToCart}>
+          <TouchableHighlight style={styles.button} onPress={foodAddToCart}>
             <Text style={styles.buttonText}>Add to Cart</Text>
           </TouchableHighlight>
 
