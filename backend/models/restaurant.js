@@ -85,31 +85,30 @@ class Restaurant {
   }
 
 
-   static async checkOut(restaurantId, foodId) {
+  static async checkOut(restaurantId, foodId) {
     const db = getDb();
 
     const food = await db.collection('restaurants').findOne(
-      { 
+      {
         _id: new ObjectId(restaurantId),
         cart: { $elemMatch: { _id: new ObjectId(foodId) } }
       },
-      { 
-        projection: { cart: { $elemMatch: { _id: new ObjectId(foodId) } } } 
+      {
+        projection: { cart: { $elemMatch: { _id: new ObjectId(foodId) } } }
       }
     );
 
-    const newItem=food.cart[0]
-    
-     db.collection('restaurants').updateOne(
+    const newItem = food.cart[0]
+
+    db.collection('restaurants').updateOne(
       { _id: new ObjectId(restaurantId) },
       { $push: { order: newItem } }
     );
-
-
-    
-
-
-  
+    console.log(foodId);
+    return db.collection('restaurants').updateOne(
+      { _id: new ObjectId(restaurantId) },
+      { $pull: { cart: { _id: new ObjectId(foodId) } } }
+    )
 
     // return db.collection('restaurants').updateOne(
     //   { _id: new ObjectId(restaurantId) },
@@ -122,7 +121,7 @@ class Restaurant {
       { _id: new ObjectId(restaurantId), 'notes._id': new ObjectId(noteId) },
       {
         $set: {
-          'notes.$': updatedNote         
+          'notes.$': updatedNote
         },
       }
     );
