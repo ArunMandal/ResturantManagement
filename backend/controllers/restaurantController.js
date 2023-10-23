@@ -3,7 +3,6 @@ const Restaurant = require('../models/restaurant');
 
 // Create a new restaurant
 exports.createRestaurant = async (req, res) => {
-  console.log('reached heeefe')
   const { name, phone, foods, notes } = req.body;
 
   const restaurant = new Restaurant(name, phone, foods, notes);
@@ -21,16 +20,12 @@ exports.createRestaurant = async (req, res) => {
 exports.getRestaurantById = async (req, res) => {
   const { restaurantId } = req.params;
 
-  console.log('reached in server');
-
   try {
     const restaurant = await Restaurant.findById(restaurantId);
 
     if (!restaurant) {
-      return res.status(404).json({success:true , message: 'Restaurant not found' });
+      return res.status(404).json({ message: 'Restaurant not found' });
     }
-
-    
 
     res.status(200).json(restaurant);
   } catch (err) {
@@ -59,18 +54,19 @@ exports.listRestaurants = async (req, res) => {
 exports.addFood = async (req, res) => {
   const { restaurantId } = req.params;
   const { name, origin, price, date, image } = req.body;
+
   try {
     const newFood = { name, origin, price, date, image };
     const result = await Restaurant.addFood(restaurantId, newFood);
 
     if (result.modifiedCount === 0) {
-      return res.status(404).json({success:true , message: 'Restaurant not found' });
+      return res.status(404).json({ message: 'Restaurant not found' });
     }
 
-    res.status(200).json({success:true , message: 'Food item added successfully' });
+    res.status(200).json({ message: 'Food item added successfully' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({success:false , message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -103,32 +99,13 @@ exports.updateFood = async (req, res) => {
     const result = await Restaurant.updateFood(restaurantId, foodId, updatedFood);
     
     if (result.modifiedCount === 1) {
-      res.status(200).json({ success:true , message: 'Food item updated successfully' });
+      res.status(200).json({ message: 'Food item updated successfully' });
     } else {
-      res.status(404).json({success:false , message: 'Food item not found' });
+      res.status(404).json({ message: 'Food item not found' });
     }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal server error' });
-  }
-};
-
-
-exports.deleteFood = async (req, res) => {
-  const { restaurantId, foodId } = req.params;
-
-
-  try {
-    const result = await Restaurant.deleteFood(restaurantId, foodId);
-    
-    if (result.modifiedCount === 1) {
-      res.status(200).json({success:true , message: 'Food deleted successfully' });
-    } else {
-      res.status(404).json({message: 'Food  not found' });
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({success:false , message: 'Internal server error' });
   }
 };
 
@@ -150,7 +127,41 @@ exports.updateNote = async (req, res) => {
   }
 };
 
+exports.addOrder = async (req, res, next) => {
+  const restaurantId = req.params.restaurantId; // Assuming you pass the restaurantId as a parameter
+  const order = req.body; // You should pass the order details in the request body
+
+  try {
+    const result = await Restaurant.addOrder(restaurantId, order);
+    res.status(200).json({ success: true, message: 'Order added successfully', data: result });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
 
 
+exports.addToCart = async (req, res) => {
+  const { restaurantId, foodId } = req.params; // Assuming both IDs are part of the request parameters
+  const { cartItem } = req.body; // Assuming cartItem is part of the request body
+
+  try {
+    const result = await Restaurant.addToCart(restaurantId, foodId, cartItem);
+    res.status(200).json({ success: true, message: 'Item added to cart successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Error adding item to cart' });
+  }
+};
+
+// Controller to checkout the cart
+exports.checkoutCart = async (req, res) => {
+  const { restaurantId, foodId } = req.params; // Assuming both IDs are part of the request parameters
+
+  try {
+    const result = await Restaurant.checkoutCart(restaurantId, foodId);
+    res.status(200).json({ success: true, message: 'Cart checked out successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Error checking out cart' });
+  }
+};
 
 

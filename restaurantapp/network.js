@@ -1,5 +1,5 @@
 const baseURL = 'http://localhost:5001';
-const resturantId = '6532df372a474e2233506e82'
+const resturantId = '653565eadc380026cc70e790'
 
 const checkError = async (response, error) => {
   const responseData = await response.json();
@@ -75,8 +75,10 @@ export async function getFood(token) {
         'Authorization': `Bearer ${token}`,
       },
     });
+
     if (!response.ok) throw new Error('Failed to fetch products');
     const data = await response.json();
+    console.log("food", data)
     return data;
   } catch (error) {
     console.log(error)
@@ -165,5 +167,73 @@ export async function updateProfile(data, token) {
   } catch (error) {
     console.error('Error updating profile:', error);
     throw error; // You can handle the error as needed in your component
+  }
+}
+
+// Import necessary dependencies and configurations
+
+export async function addOrder(order, token) {
+  try {
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}/orders`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(order),
+    });
+    console.log("addOrder", response)
+
+    if (!response.ok) {
+      console.error('Error adding order to the restaurant.');
+      return { success: false, error: 'Error adding order to the restaurant' };
+    }
+
+    const data = await response.json();
+    if (data) return { success: true, data };
+  } catch (error) {
+    return { success: false, error: 'An error occurred' };
+  }
+}
+
+export async function addToCart(restaurantId, foodId, token) {
+  try {
+    const response = await fetch(`${baseURL}/${restaurantId}/addToCart/${foodId}`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Error adding to cart.');
+      return { success: false, error: 'Error adding to cart' };
+    }
+
+    const data = await response.json();
+    if (data) return { success: true, data };
+  } catch (error) {
+    return { success: false, error: 'An error occurred' };
+  }
+}
+
+export async function checkoutCart(restaurantId, token) {
+  try {
+    const response = await fetch(`${baseURL}/checkoutCart/${restaurantId}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Error checking out the cart.');
+      return { success: false, error: 'Error checking out the cart' };
+    }
+
+    const data = await response.json();
+    if (data) return { success: true, data };
+  } catch (error) {
+    return { success: false, error: 'An error occurred' };
   }
 }

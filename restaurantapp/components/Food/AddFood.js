@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import DatePicker from "react-datepicker";
-//import "react-datepicker/dist/react-datepicker.css";
+
 import { addFood } from '../../network';
-// import DatePicker from 'react-native-datepicker';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GlobalContext from '../../contex';
@@ -49,7 +48,7 @@ const AddFood = ({ navigation }) => {
                 aspect: [4, 3]
             })
             console.log("ret.assets[0].uri", pickerResult.assets[0].uri); // log the result for debugging
-            if (pickerResult.cancelled === true) {
+            if (pickerResult.canceled === true) {
                 return;
             }
 

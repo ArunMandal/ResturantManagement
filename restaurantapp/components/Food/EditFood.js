@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { View,Text, TextInput, Button, Image,StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-//import DatePicker from "react-datepicker";
-import DatePicker from 'react-native-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { editFood } from '../../network';
 import GlobalContext from '../../contex';

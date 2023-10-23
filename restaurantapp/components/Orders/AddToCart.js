@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 import { addToCart } from '../../network'; // Import the addToCart function
 
-const AddToCartComponent = ({ restaurantId, foodId, token }) => {
+const AddToCartComponent = ({ foodId, token }) => {
   const handleAddToCart = async () => {
-    const result = await addToCart(restaurantId, foodId, token);
+    const result = await addToCart(foodId, token);
     if (result.success) {
       alert('Food added to cart successfully.');
     } else {
