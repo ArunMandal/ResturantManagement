@@ -99,30 +99,32 @@ const UpdateProfile = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#fff',
   },
   label: {
     fontSize: 18,
-    fontWeight: 'bold',
     marginBottom: 10,
+    fontWeight:"bold"
   },
   input: {
+    width: '80%',
+    height: 40,
+    borderColor: 'gray',
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    marginBottom: 20,
     padding: 10,
-    marginBottom: 10,
   },
   button: {
     backgroundColor: 'blue',
     padding: 15,
     borderRadius: 5,
-    alignItems: 'center',
   },
   buttonText: {
     color: 'white',
-    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
 
