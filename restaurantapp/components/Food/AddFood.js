@@ -136,8 +136,8 @@ const AddFood = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        //flex: 1,
-        justifyContent: 'center',
+        flex: 1,
+        justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 20,
         backgroundColor: '#fff',
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     buttonContainer: {
-        width: '10%',
+        width: 'auto',
         marginTop: 20
     },
 });

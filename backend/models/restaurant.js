@@ -45,7 +45,7 @@ class Restaurant {
     newNote._id = new ObjectId();
     return db.collection('restaurants').updateOne(
       { _id: new ObjectId(restaurantId) },
-      { $push: { foods: newNote } }
+      { $push: { notes: newNote } }
     );
   }
 

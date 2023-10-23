@@ -11,9 +11,11 @@ router.get('/:restaurantId', restaurantController.getRestaurantById);
 
 router.get('/', restaurantController.listRestaurants);
 router.post('/:restaurantId/foods', restaurantController.addFood);
-router.put('/:restaurantId/notes', restaurantController.addNote);
 router.patch('/:restaurantId/foods/:foodId', restaurantController.updateFood);
 router.delete('/:restaurantId/foods/:foodId', restaurantController.deleteFood);
+
+
+router.post('/:restaurantId/notes', restaurantController.addNote);
 router.patch('/:restaurantId/foods/:noteId', restaurantController.updateNote);
 
 module.exports = router;

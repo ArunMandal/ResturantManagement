@@ -53,7 +53,7 @@ export default function ListFoods({ navigation }) {
       </TouchableOpacity>
 
       <TextInput style={styles.searchInput} placeholder="Live Search" onChangeText={changeSearch} />
-      <FlatList style={{width:"50%"}}
+      <FlatList style={{width:"100%"}}
         data={food}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (

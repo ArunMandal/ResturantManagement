@@ -1,40 +1,49 @@
-import { Text, View, Button, Image, StyleSheet } from "react-native"
+import React from 'react';
+import { View, Text, Image, StyleSheet, Platform, Alert } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
-export default function NoteDetails({ navigation, route }) {
+const Notes = ({ header, comment, date }) => {
+    const navigation = useNavigation();
 
-    const { header, comment, date } = route.params;
-    console.log(route.params);
+    const viewNotes = () => {
+        navigation.navigate('noteDetails', { header, comment, date });
+    };
+
     return (
         <View style={styles.foodContainer}>
+
             <View style={styles.foodDetails}>
                 <Text style={styles.foodName}>{header}</Text>
                 <View style={styles.infoContainer}>
-                    <Text style={styles.foodOrigin}>
+
+                    <Text style={styles.foodPrice}>
                         <Text style={styles.boldText}>Comment: </Text>
                         {comment}
                     </Text>
-                    <Text style={styles.foodPrice}>
-                        <Text style={styles.boldText}>Date: </Text>
-                        {date}
-                    </Text>
                 </View>
-            </View>
-            <View style={styles.buttonContainer}>
-                <Button title="Back" onPress={() => navigation.goBack()} />
+                <View style={styles.buttonContainer}>
+
+                    <TouchableHighlight style={styles.button} onPress={viewNotes}>
+                        <Text style={styles.buttonText}>View</Text>
+                    </TouchableHighlight>
+
+                </View>
             </View>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
+
     foodContainer: {
-        flexDirection: 'column',
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: '#e0e0e0',
         padding: 10,
-        width: '100%',
+        width: '100%', // Set the width to 100% or adjust as needed
     },
     boldText: {
         fontWeight: 'bold',
@@ -62,17 +71,16 @@ const styles = StyleSheet.create({
     },
     foodOrigin: {
         fontSize: 16,
-        color: '#333',
+        color: '#777',
     },
     foodPrice: {
         fontSize: 16,
         color: '#333',
-        // marginLeft: 10
+        marginLeft: 10
     },
     buttonContainer: {
-
+        flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 10
 
     },
     button: {
@@ -87,3 +95,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+export default Notes;
