@@ -40,6 +40,16 @@ class Restaurant {
     );
   }
 
+  static addToCart(restaurantId, newFood) {
+    const db = getDb();
+    newFood._id = new ObjectId();
+    return db.collection('restaurants').updateOne(
+      { _id: new ObjectId(restaurantId) },
+      { $push: { cart: newFood } }
+    );
+  }
+
+
   static addNote(restaurantId, newNote) {
     const db = getDb();
     newNote._id = new ObjectId();

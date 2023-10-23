@@ -29,6 +29,12 @@ const Food = ({ _id, name, price, origin, date, image }) => {
     navigation.navigate('editFood', { _id, name, price, origin, date, image });
   };
 
+  const addToCart=()=>{
+
+
+    
+  }
+
   const toDeleteFood = async () => {
     const storedToken = await AsyncStorage.getItem('token');
     const success = await deleteFood(_id, storedToken);
@@ -71,7 +77,7 @@ const Food = ({ _id, name, price, origin, date, image }) => {
           </Text> */}
           <Text style={styles.foodPrice}>
             <Text style={styles.boldText}>Price: </Text>
-           ${price}
+            ${price}
           </Text>
         </View>
         <View style={styles.buttonContainer}>
@@ -81,6 +87,11 @@ const Food = ({ _id, name, price, origin, date, image }) => {
           <TouchableHighlight style={styles.button} onPress={viewfood}>
             <Text style={styles.buttonText}>View</Text>
           </TouchableHighlight>
+
+          <TouchableHighlight style={styles.button} onPress={addToCart}>
+            <Text style={styles.buttonText}>Add to Cart</Text>
+          </TouchableHighlight>
+
           <TouchableHighlight style={styles.button} onPress={toDelete}>
             <Text style={styles.buttonText}>Delete</Text>
           </TouchableHighlight>

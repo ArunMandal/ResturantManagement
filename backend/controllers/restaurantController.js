@@ -74,6 +74,26 @@ exports.addFood = async (req, res) => {
   }
 };
 
+
+exports.addToCart = async (req, res) => {
+  const { restaurantId } = req.params;
+  const { name, origin, price, date, image } = req.body;
+  try {
+    const newFood = { name, origin, price, date, image };
+    const result = await Restaurant.addToCart(restaurantId, newFood);
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({success:true , message: 'Restaurant not found' });
+    }
+
+    res.status(200).json({success:true , message: 'Item added in the cart' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({success:false , message: 'Internal server error' });
+  }
+};
+
+
 exports.addNote = async (req, res) => {
   console.log('reached here')
   const { restaurantId } = req.params;

@@ -13,6 +13,7 @@ router.get('/', restaurantController.listRestaurants);
 router.post('/:restaurantId/foods', restaurantController.addFood);
 router.patch('/:restaurantId/foods/:foodId', restaurantController.updateFood);
 router.delete('/:restaurantId/foods/:foodId', restaurantController.deleteFood);
+router.post('/:restaurantId/cart', restaurantController.addToCart);
 
 
 router.post('/:restaurantId/notes', restaurantController.addNote);

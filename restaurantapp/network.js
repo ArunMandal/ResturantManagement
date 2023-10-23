@@ -169,6 +169,26 @@ export async function updateProfile(data, token) {
 }
 
 
+export async function addToCart(newFood, token) {
+  try {
+
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}/cart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(newFood),
+    });
+    if (!response.ok) throw new Error('Failed to add item in cart');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+
 //Notes Section
 
 export async function addNotes(newNote, token) {
