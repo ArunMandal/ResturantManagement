@@ -169,6 +169,26 @@ export async function updateProfile(data, token) {
 }
 
 
+export async function CheckoutItem(id, token) {
+  try {
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}/cart/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error('Failed to delete product');
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+
+
 export async function addToCart(newFood, token) {
   try {
 

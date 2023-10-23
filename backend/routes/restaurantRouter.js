@@ -13,8 +13,10 @@ router.get('/', restaurantController.listRestaurants);
 router.post('/:restaurantId/foods', restaurantController.addFood);
 router.patch('/:restaurantId/foods/:foodId', restaurantController.updateFood);
 router.delete('/:restaurantId/foods/:foodId', restaurantController.deleteFood);
-router.post('/:restaurantId/cart', restaurantController.addToCart);
 
+
+router.post('/:restaurantId/cart', restaurantController.addToCart);
+router.delete('/:restaurantId/cart/:foodId', restaurantController.checkOut);
 
 router.post('/:restaurantId/notes', restaurantController.addNote);
 router.patch('/:restaurantId/foods/:noteId', restaurantController.updateNote);

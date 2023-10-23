@@ -27,10 +27,10 @@ exports.getRestaurantById = async (req, res) => {
     const restaurant = await Restaurant.findById(restaurantId);
 
     if (!restaurant) {
-      return res.status(404).json({success:true , message: 'Restaurant not found' });
+      return res.status(404).json({ success: true, message: 'Restaurant not found' });
     }
 
-    
+
 
     res.status(200).json(restaurant);
   } catch (err) {
@@ -64,13 +64,13 @@ exports.addFood = async (req, res) => {
     const result = await Restaurant.addFood(restaurantId, newFood);
 
     if (result.modifiedCount === 0) {
-      return res.status(404).json({success:true , message: 'Restaurant not found' });
+      return res.status(404).json({ success: true, message: 'Restaurant not found' });
     }
 
-    res.status(200).json({success:true , message: 'Food item added successfully' });
+    res.status(200).json({ success: true, message: 'Food item added successfully' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({success:false , message: 'Internal server error' });
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -83,13 +83,13 @@ exports.addToCart = async (req, res) => {
     const result = await Restaurant.addToCart(restaurantId, newFood);
 
     if (result.modifiedCount === 0) {
-      return res.status(404).json({success:true , message: 'Restaurant not found' });
+      return res.status(404).json({ success: true, message: 'Restaurant not found' });
     }
 
-    res.status(200).json({success:true , message: 'Item added in the cart' });
+    res.status(200).json({ success: true, message: 'Item added in the cart' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({success:false , message: 'Internal server error' });
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -98,16 +98,16 @@ exports.addNote = async (req, res) => {
   console.log('reached here')
   const { restaurantId } = req.params;
   const newNote = req.body;
-  
+
   try {
-    
+
     const result = await Restaurant.addNote(restaurantId, newNote);
 
     if (result.modifiedCount === 0) {
       return res.status(404).json({ message: 'Restaurant not found' });
     }
 
-    res.status(200).json({success:true, message: 'Note added successfully' });
+    res.status(200).json({ success: true, message: 'Note added successfully' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal server error' });
@@ -121,11 +121,11 @@ exports.updateFood = async (req, res) => {
 
   try {
     const result = await Restaurant.updateFood(restaurantId, foodId, updatedFood);
-    
+
     if (result.modifiedCount === 1) {
-      res.status(200).json({ success:true , message: 'Food item updated successfully' });
+      res.status(200).json({ success: true, message: 'Food item updated successfully' });
     } else {
-      res.status(404).json({success:false , message: 'Food item not found' });
+      res.status(404).json({ success: false, message: 'Food item not found' });
     }
   } catch (err) {
     console.error(err);
@@ -136,19 +136,34 @@ exports.updateFood = async (req, res) => {
 
 exports.deleteFood = async (req, res) => {
   const { restaurantId, foodId } = req.params;
-
-
   try {
     const result = await Restaurant.deleteFood(restaurantId, foodId);
-    
+
     if (result.modifiedCount === 1) {
-      res.status(200).json({success:true , message: 'Food deleted successfully' });
+      res.status(200).json({ success: true, message: 'Food deleted successfully' });
     } else {
-      res.status(404).json({message: 'Food  not found' });
+      res.status(404).json({ message: 'Food  not found' });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({success:false , message: 'Internal server error' });
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+
+exports.checkOut = async (req, res) => {
+  const { restaurantId, foodId } = req.params;
+  try {
+    const result = await Restaurant.checkOut(restaurantId, foodId);
+
+    if (result.modifiedCount === 1) {
+      res.status(200).json({ success: true, message: 'Food deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Food  not found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -158,7 +173,7 @@ exports.updateNote = async (req, res) => {
 
   try {
     const result = await Restaurant.updateNote(restaurantId, foodId, updatedNote);
-    
+
     if (result.modifiedCount === 1) {
       res.status(200).json({ message: 'Note updated successfully' });
     } else {

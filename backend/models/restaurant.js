@@ -84,6 +84,38 @@ class Restaurant {
     );
   }
 
+
+   static async checkOut(restaurantId, foodId) {
+    const db = getDb();
+
+    const food = await db.collection('restaurants').findOne(
+      { 
+        _id: new ObjectId(restaurantId),
+        cart: { $elemMatch: { _id: new ObjectId(foodId) } }
+      },
+      { 
+        projection: { cart: { $elemMatch: { _id: new ObjectId(foodId) } } } 
+      }
+    );
+
+    const newItem=food.cart[0]
+    
+     db.collection('restaurants').updateOne(
+      { _id: new ObjectId(restaurantId) },
+      { $push: { order: newItem } }
+    );
+
+
+    
+
+
+  
+
+    // return db.collection('restaurants').updateOne(
+    //   { _id: new ObjectId(restaurantId) },
+    //   { $pull: { foods: { _id: new ObjectId(foodId) } } }
+    // );
+  }
   static updateNote(restaurantId, noteId, updatedNote) {
     const db = getDb();
     return db.collection('restaurants').updateOne(
