@@ -1,100 +1,90 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { login } from '../network'; // Import your login function
-import UserContext from './Context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { login } from '../../network';
+import GlobalContext from '../../contex';
 
 const styles = {
-  loginContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loginForm: {
-    width: '80%',
-  },
-  inputField: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  loginButton: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  loginButtonText: {
-    color: 'white',
-  },
-  signupLink: {
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  signupButton: {
-    backgroundColor: 'green',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  signupButtonText: {
-    color: 'white',
-  },
+    loginContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loginForm: {
+        width: '100%',
+    },
+    inputField: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+    },
+    loginButton: {
+        backgroundColor: 'blue',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    loginButtonText: {
+        color: 'white',
+    },
+    errorText: {
+        color: 'red',
+        marginBottom: 10,
+    },
 };
 
 export default function Login() {
-  const [user, setUser] = useState({ email: '', password: '' });
-  const { state, setState } = useContext(UserContext);
-  const navigation = useNavigation();
+    const [user, setUser] = useState({ email: '', password: '' });
+    const [error, setError] = useState(''); // Add error state
+    const { state, setState } = useContext(GlobalContext);
+    const { email, password } = user;
+    const navigation = useNavigation();
 
-  const handleSubmit = async () => {
-    try {
-      const res = await login(user.email, user.password);
+    const handleSubmit = async () => {
+        if (email.trim() === '' || password.trim() === '') {
+            setError('Please enter both email and password.');
+            return;
+        }
 
-      if (res.success) {
-        await AsyncStorage.setItem('token', res.token);
+        try {
+            const res = await login(email, password);
 
-        setState({ ...state, user: res.data });
-        Alert.alert('Login successful');
-        navigation.navigate('Home'); // Replace 'Home' with your home screen
-      } else {
-        Alert.alert(res.error);
-      }
-    } catch (error) {
-      Alert.alert('Error: Login failed');
-    }
-  };
+            if (res.token) {
+                setState({ ...state, user: true });
+                await AsyncStorage.setItem('token', res.token);
+            } else {
+                setError('Login failed. Check your credentials.');
+            }
+        } catch (error) {
+            setError('Login failed. Please try again later.');
+        }
+    };
 
-  return (
-    <View style={styles.loginContainer}>
-      <View style={styles.loginForm}>
-        <TextInput
-          style={styles.inputField}
-          placeholder="Enter your email"
-          value={user.email}
-          onChangeText={(text) => setUser({ ...user, email: text })}
-        />
-        <TextInput
-          style={styles.inputField}
-          placeholder="Enter your password"
-          secureTextEntry
-          value={user.password}
-          onChangeText={(text) => setUser({ ...user, password: text })}
-        />
-        <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-          <Text style={styles.loginButtonText}>Login</Text>
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={styles.signupLink} onPress={() => navigation.navigate('SignUp')}>
-        <View style={styles.signupButton}>
-          <Text style={styles.signupButtonText}>Don't have an account? Register</Text>
+    return (
+        <View style={styles.loginContainer}>
+            <View style={styles.loginForm}>
+                <TextInput
+                    style={styles.inputField}
+                    placeholder="Enter your email"
+                    value={user.email}
+                    onChangeText={(text) => setUser({ ...user, email: text })}
+                />
+                <TextInput
+                    style={styles.inputField}
+                    placeholder="Enter your password"
+                    secureTextEntry
+                    value={user.password}
+                    onChangeText={(text) => setUser({ ...user, password: text })}
+                />
+                {error ? <Text style={styles.errorText}>{error}</Text> : null}
+                <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+                    <Text style={styles.loginButtonText}>Login</Text>
+                </TouchableOpacity>
+            </View>
         </View>
-      </TouchableOpacity>
-    </View>
-  );
+    );
 }
-
 
