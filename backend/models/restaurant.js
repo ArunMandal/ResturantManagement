@@ -104,7 +104,7 @@ class Restaurant {
       { _id: new ObjectId(restaurantId) },
       { $push: { order: newItem } }
     );
-    console.log(foodId);
+  
     return db.collection('restaurants').updateOne(
       { _id: new ObjectId(restaurantId) },
       { $pull: { cart: { _id: new ObjectId(foodId) } } }

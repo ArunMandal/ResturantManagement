@@ -34,7 +34,7 @@ export default function EditFood({ navigation, route }) {
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 aspect: [4, 3]
             })
-            console.log("ret.assets[0].uri", pickerResult.assets[0].uri); // log the result for debugging
+            
             if (pickerResult.cancelled === true) {
                 return;
             }

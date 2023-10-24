@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthScreen from './components/profile/AuthScreen';
 
 const App = () => {
-  const [state, setState] = useState({ food: [], notes: [], user: false,cart:[] });
+  const [state, setState] = useState({ food: [], notes: [], user: false,cart:[],orders:[] });
   const stack = createStackNavigator();
 
   function authorization() {

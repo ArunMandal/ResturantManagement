@@ -53,8 +53,8 @@ export default function TabNavigator() {
             {/* Your Tab.Screen components here */}
             <Tab.Screen name="foodList" component={FoodStackNavigator} options={{title:"Food"}}/>
             <Tab.Screen name="dailyNotes" component={NoteStackNavigator} options={{title:"Notes"}} />
-            <Tab.Screen name="personal profile" component={ProfileStackNavigator} options={{title:"Profile"}}/>
             <Tab.Screen name="cart" component={CartStackNavigator} options={{title:"Cart"}}/>
+            <Tab.Screen name="personal profile" component={ProfileStackNavigator} options={{title:"Profile"}}/>
             
         </Tab.Navigator>
     )

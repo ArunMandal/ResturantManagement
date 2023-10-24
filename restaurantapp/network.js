@@ -144,7 +144,7 @@ export async function deleteFood(id, token) {
 
 export async function updateProfile(data, token) {
   try {
-    console.log("Updating profile with data:", data);
+    
     const response = await fetch(`${baseURL}/update/${data._id}`, {
       method: 'PUT',
       headers: {
@@ -153,8 +153,6 @@ export async function updateProfile(data, token) {
       },
       body: JSON.stringify(data),
     });
-
-    console.log("Response from server:", response);
 
     if (response.ok) {
       return await response.json();
@@ -213,8 +211,6 @@ export async function addToCart(newFood, token) {
 
 export async function addNotes(newNote, token) {
   try {
-
-    console.log("token",token)
 
     const response = await fetch(`${baseURL}/restuarants/${resturantId}/notes`, {
       method: 'POST',

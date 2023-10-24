@@ -3,7 +3,7 @@ const Restaurant = require('../models/restaurant');
 
 // Create a new restaurant
 exports.createRestaurant = async (req, res) => {
-  console.log('reached heeefe')
+
   const { name, phone, foods, notes } = req.body;
 
   const restaurant = new Restaurant(name, phone, foods, notes);
@@ -21,7 +21,6 @@ exports.createRestaurant = async (req, res) => {
 exports.getRestaurantById = async (req, res) => {
   const { restaurantId } = req.params;
 
-  console.log('reached in server');
 
   try {
     const restaurant = await Restaurant.findById(restaurantId);
@@ -95,7 +94,6 @@ exports.addToCart = async (req, res) => {
 
 
 exports.addNote = async (req, res) => {
-  console.log('reached here')
   const { restaurantId } = req.params;
   const newNote = req.body;
 

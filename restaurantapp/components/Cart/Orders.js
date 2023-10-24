@@ -18,7 +18,7 @@ export default function orders({ navigation }) {
       try {
         const storedToken = await AsyncStorage.getItem('token');
         let data = await getFood(storedToken);
-        console.log("data",data.order)
+    
         setState({ ...state, orders: data.order });
       } catch (error) {
         console.error("Error fetching data:", error);

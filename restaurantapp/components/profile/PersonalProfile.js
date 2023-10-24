@@ -19,10 +19,6 @@ const PersonalProfile = () => {
     const storedToken = await AsyncStorage.getItem('token');
     setToken(storedToken);
 
-    console.log('user info')
-    console.log("id", id)
-    console.log("token", storedToken)
-
     const userProfileResponse = await getUser(id, storedToken);
 
     if (userProfileResponse.success) {
@@ -63,15 +59,15 @@ const PersonalProfile = () => {
     <View style={styles.container}>
       <Text style={styles.header}>User Information</Text>
       <Image source={require(`../../images/sam.jpg`)} style={styles.userPhoto} />
-      <Text style={styles.label}><Text style={{fontWeight:"bold"}}>Email:</Text>  {email}</Text>
-      <Text style={styles.label}><Text style={{fontWeight:"bold"}}>Name:</Text>{fullName}</Text>
-      <Text style={styles.label}><Text style={{fontWeight:"bold"}}>Phome:</Text>{phoneNumber}</Text>
-      <Text style={styles.label}><Text style={{fontWeight:"bold"}}>Address:</Text> {address}</Text>
+      <Text style={styles.label}><Text style={{ fontWeight: "bold" }}>Email:</Text>  {email}</Text>
+      <Text style={styles.label}><Text style={{ fontWeight: "bold" }}>Name:</Text>{fullName}</Text>
+      <Text style={styles.label}><Text style={{ fontWeight: "bold" }}>Phome:</Text>{phoneNumber}</Text>
+      <Text style={styles.label}><Text style={{ fontWeight: "bold" }}>Address:</Text> {address}</Text>
       <View style={styles.button}>
         <Button title="Update Profile" onPress={() => navigation.navigate('updateProfile', { setUser: setUser })} />
       </View>
       <View style={styles.button}>
-        <Button title="Logout" onPress={handleLogout}  />
+        <Button title="Logout" onPress={handleLogout} />
       </View>
     </View>
   );
@@ -103,7 +99,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
-   // backgroundColor: 'lightblue',
+    // backgroundColor: 'lightblue',
     borderRadius: 5,
   },
   buttonText: {

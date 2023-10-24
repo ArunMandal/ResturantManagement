@@ -17,8 +17,15 @@ const CartItem = ({ _id, name, price, origin, date, image }) => {
     try {
       const storedToken = await AsyncStorage.getItem('token');
       let data = await getFood(storedToken);
-      setState({ ...state, food: data.foods });
-      setState({ ...state, cart: data.cart });
+      //setState({ ...state, food: data.foods });
+      // setState({ ...state, cart: data.cart });
+      // setState({ ...state, orders: data.order });
+
+      setState(prevState => ({
+        ...prevState,
+        cart: data.cart,
+        orders: data.order
+      }));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -36,31 +43,7 @@ const CartItem = ({ _id, name, price, origin, date, image }) => {
 
 
 
-  const foodAddToCart = async () => {
-
-    const storedToken = await AsyncStorage.getItem('token');
-    const newFood = {
-      _id: _id,
-      name: name,
-      origin: origin,
-      price: price,
-      date: date,
-      image: image
-    }
-
-    const ret = await addToCart(newFood, storedToken)
-
-    if (ret.success) {
-
-      getCartfromDB();
-      confirm('Item added to cart');
-     // navigation.navigate('foodList')
-    }
-    else {
-      console.log(ret.message);
-    }
-
-  }
+  
 
   const checkOutItem = async () => {
     const storedToken = await AsyncStorage.getItem('token');
@@ -68,7 +51,7 @@ const CartItem = ({ _id, name, price, origin, date, image }) => {
     if (success) {
       console.log("Food deleted successfully");
       getFoodfromDB();
-      navigation.navigate('foodList');
+      navigation.navigate('cart');
     } else {
       console.log("food deletion failed");
     }
