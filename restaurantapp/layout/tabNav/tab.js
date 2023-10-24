@@ -3,6 +3,7 @@ import FoodStackNavigator from '../stackNav/foodStack';
 import NoteStackNavigator from '../stackNav/noteStack';
 import ProfileStackNavigator from '../stackNav/profileStack';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Replace with the appropriate icon library
+import CartStackNavigator from '../stackNav/CartStack';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -23,6 +24,10 @@ export default function TabNavigator() {
                     } else if (route.name === 'personal profile') {
                         iconName = 'user'; // Example icon name
                     }
+                    else if (route.name === 'cart') {
+                        iconName = 'shopping-cart'; // Example icon name for cart
+                    }
+                    
 
                     // You can return any component that you like here
                     return <Icon name={iconName} size={iconSize} color={iconColor} />;
@@ -48,7 +53,9 @@ export default function TabNavigator() {
             {/* Your Tab.Screen components here */}
             <Tab.Screen name="foodList" component={FoodStackNavigator} options={{title:"Food"}}/>
             <Tab.Screen name="dailyNotes" component={NoteStackNavigator} options={{title:"Notes"}} />
+            <Tab.Screen name="cart" component={CartStackNavigator} options={{title:"Cart"}}/>
             <Tab.Screen name="personal profile" component={ProfileStackNavigator} options={{title:"Profile"}}/>
+            
         </Tab.Navigator>
     )
 

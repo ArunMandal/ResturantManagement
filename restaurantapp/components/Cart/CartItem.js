@@ -7,8 +7,9 @@ import GlobalContext from '../../contex';
 import { getFood } from '../../network';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addToCart } from '../../network';
+import { CheckoutItem } from '../../network';
 
-const Food = ({ _id, name, price, origin, date, image }) => {
+const CartItem = ({ _id, name, price, origin, date, image }) => {
   const navigation = useNavigation();
   const { state, setState } = useContext(GlobalContext);
 
@@ -16,13 +17,15 @@ const Food = ({ _id, name, price, origin, date, image }) => {
     try {
       const storedToken = await AsyncStorage.getItem('token');
       let data = await getFood(storedToken);
-      
+      //setState({ ...state, food: data.foods });
+      // setState({ ...state, cart: data.cart });
+      // setState({ ...state, orders: data.order });
+
       setState(prevState => ({
         ...prevState,
-        food: data.foods,
-        cart: data.cart
+        cart: data.cart,
+        orders: data.order
       }));
-
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -39,56 +42,26 @@ const Food = ({ _id, name, price, origin, date, image }) => {
   };
 
 
-  const viewfood = () => {
-    navigation.navigate('foodDetals', { name, price, origin, date, image });
-  };
 
-  const editFood = () => {
-    navigation.navigate('editFood', { _id, name, price, origin, date, image });
-  };
+  
 
-  const foodAddToCart = async () => {
-
+  const checkOutItem = async () => {
     const storedToken = await AsyncStorage.getItem('token');
-    const newFood = {
-      _id: _id,
-      name: name,
-      origin: origin,
-      price: price,
-      date: date,
-      image: image
-    }
-
-    const ret = await addToCart(newFood, storedToken)
-
-    if (ret.success) {
-
-      getCartfromDB();
-      confirm('Item added to cart');
-     // navigation.navigate('foodList')
-    }
-    else {
-      console.log(ret.message);
-    }
-
-  }
-
-  const toDeleteFood = async () => {
-    const storedToken = await AsyncStorage.getItem('token');
-    const success = await deleteFood(_id, storedToken);
+    const success = await CheckoutItem(_id, storedToken);
     if (success) {
+      console.log("Food deleted successfully");
       getFoodfromDB();
-      navigation.navigate('foodList');
+      navigation.navigate('cart');
     } else {
       console.log("food deletion failed");
     }
   };
 
-  const toDelete = () => {
+  const checkout = () => {
     if (Platform.OS === 'web') {
-      const userConfirmed = confirm('Do you want to delete this food?');
+      const userConfirmed = confirm('Do you want to checkout this item?');
       if (userConfirmed) {
-        toDeleteFood();
+        checkOutItem();
       }
     } else {
       Alert.alert('Do you want to delete this food?', 'This action cannot be undone.', [
@@ -118,19 +91,9 @@ const Food = ({ _id, name, price, origin, date, image }) => {
           </Text>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableHighlight style={styles.button} onPress={editFood}>
-            <Text style={styles.buttonText}>Edit</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.button} onPress={viewfood}>
-            <Text style={styles.buttonText}>View</Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight style={styles.button} onPress={foodAddToCart}>
-            <Text style={styles.buttonText}>Add to Cart</Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight style={styles.button} onPress={toDelete}>
-            <Text style={styles.buttonText}>Delete</Text>
+        
+          <TouchableHighlight style={styles.button} onPress={checkout}>
+            <Text style={styles.buttonText}>Checkout</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -200,4 +163,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Food;
+export default CartItem;

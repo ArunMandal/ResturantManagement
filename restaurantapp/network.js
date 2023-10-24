@@ -144,7 +144,7 @@ export async function deleteFood(id, token) {
 
 export async function updateProfile(data, token) {
   try {
-    console.log("Updating profile with data:", data);
+    
     const response = await fetch(`${baseURL}/update/${data._id}`, {
       method: 'PUT',
       headers: {
@@ -153,8 +153,6 @@ export async function updateProfile(data, token) {
       },
       body: JSON.stringify(data),
     });
-
-    console.log("Response from server:", response);
 
     if (response.ok) {
       return await response.json();
@@ -169,12 +167,50 @@ export async function updateProfile(data, token) {
 }
 
 
+export async function CheckoutItem(id, token) {
+  try {
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}/cart/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error('Failed to delete product');
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+
+
+export async function addToCart(newFood, token) {
+  try {
+
+    const response = await fetch(`${baseURL}/restuarants/${resturantId}/cart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(newFood),
+    });
+    if (!response.ok) throw new Error('Failed to add item in cart');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+
 //Notes Section
 
 export async function addNotes(newNote, token) {
   try {
-
-    console.log("token",token)
 
     const response = await fetch(`${baseURL}/restuarants/${resturantId}/notes`, {
       method: 'POST',

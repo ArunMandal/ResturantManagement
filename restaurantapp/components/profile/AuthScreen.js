@@ -15,7 +15,7 @@ export default function AuthScreen() {
     <View style={styles.container}>
       <View style={styles.formContainer}>
         <Text style={styles.title}>{isLogin ? 'Login' : 'Signup'}</Text>
-        {isLogin ? <Login /> : <Signup />}
+        {isLogin ? <Login /> : <Signup pr={setIsLogin} />}
       </View>
       <Button
         title={isLogin ? 'Switch to Signup' : 'Switch to Login'}

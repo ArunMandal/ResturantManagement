@@ -84,7 +84,6 @@ exports.authMiddleware = (req, res, next) => {
 };
 
 exports.updateUserProfile = async (req, res) => {
-console.log('reached to update profi;e')
   const userId = req.params.userId; // Assuming you're passing userId in the route parameters
   const { phoneNumber, fullName, password, address } = req.body;
 
@@ -126,7 +125,6 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.getUserById = async (req, res) => {
-  console.log('reached in servet to get id')
   const { userId } = req.params;
 
   try {

@@ -8,7 +8,9 @@ import { signup } from '../../network';
 
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{10,24}$/;
 
-export default function SignUp() {
+export default function SignUp( {pr}) {
+  
+ 
   const [user, setUser] = useState({ email: '', password: '', confirmPassword: '' });
   const navigation = useNavigation();
 
@@ -23,17 +25,19 @@ export default function SignUp() {
   const handleSubmit = async () => {
     if (!validatePassword(user.password)) {
       confirm('Weak password');
+
       return;
     }
 
     if (user.password === user.confirmPassword) {
       try {
         const res = await signup(user.email, user.password);
-        console.log(res);
+       
 
         if (res.success) {
           confirm('Registration successful!');
-          navigation.navigate('AuthScreen'); // Replace with your navigation logic
+          pr(true);
+          navigation.navigate('login'); // Replace with your navigation logic
         } else {
           confirm(res.error);
         }

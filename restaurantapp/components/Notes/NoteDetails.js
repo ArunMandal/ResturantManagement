@@ -3,7 +3,7 @@ import { Text, View, Button, Image, StyleSheet } from "react-native"
 export default function NoteDetails({ navigation, route }) {
 
     const { header, comment, date } = route.params;
-    console.log(route.params);
+   
     return (
         <View style={styles.foodContainer}>
             <View style={styles.foodDetails}>

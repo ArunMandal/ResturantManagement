@@ -5,7 +5,6 @@ export default function FoodDetails({ navigation, route }) {
 
     const { name, price, origin, date, image } = route.params;
 
-    console.log(route.params);
     return (
         <View style={styles.foodContainer}>
             {image && <Image source={{ uri: image }} style={styles.foodImage} />}
